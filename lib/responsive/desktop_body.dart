@@ -15,9 +15,12 @@ class DesktopBody extends StatelessWidget {
           color: Colors.white,
           constraints: const BoxConstraints(minWidth: 240),
         ),
-        const VerticalDivider(
-          width: 20,
-          thickness: 2,
+        const MouseRegion(
+          cursor: SystemMouseCursors.resizeColumn,
+          child: VerticalDivider(
+            width: 8,
+            thickness: 2,
+          ),
         ),
         Expanded(
           child: Container(
