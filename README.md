@@ -8,4 +8,12 @@ Setup Android Studio
 Setup Xcode
 Setup Flutter
 
+```
 > flutter doctor
+```
+
+## Running app
+
+```
+> flutter run -d macos
+```
