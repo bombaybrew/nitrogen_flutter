@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:nitrogen/widgets/editor.dart';
 import 'package:nitrogen/widgets/explorer.dart';
+import 'dart:developer' as developer;
 
-class DesktopBody extends StatelessWidget {
+class DesktopBody extends StatefulWidget {
   const DesktopBody({Key? key}) : super(key: key);
+
+  @override
+  _DesktopBodyState createState() => _DesktopBodyState();
+}
+
+class _DesktopBodyState extends State<DesktopBody> {
+  static const double explorerMinWidth = 220;
+  static const double explorerMaxWidth = 480;
+  double explorerwidth = explorerMinWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -13,22 +23,35 @@ class DesktopBody extends StatelessWidget {
         Container(
           child: const Explorer(),
           color: Colors.white,
-          constraints: const BoxConstraints(minWidth: 240),
+          constraints: BoxConstraints(minWidth: explorerwidth),
         ),
-        const MouseRegion(
-          cursor: SystemMouseCursors.resizeColumn,
-          child: VerticalDivider(
-            width: 8,
-            thickness: 2,
-          ),
-        ),
+        Draggable(
+            child: _homeDivider(),
+            feedback: _homeDivider(),
+            axis: Axis.horizontal,
+            onDragUpdate: (dragDetails) {
+              var newX = dragDetails.localPosition.dx;
+
+              if (explorerMinWidth <= newX && explorerMaxWidth >= newX) {
+                setState(() => explorerwidth = dragDetails.localPosition.dx);
+              }
+            }),
         Expanded(
           child: Container(
             child: const Editor(),
-            color: Colors.grey,
           ),
         )
       ],
     ));
   }
+}
+
+Widget _homeDivider() {
+  return const MouseRegion(
+    cursor: SystemMouseCursors.resizeColumn,
+    child: VerticalDivider(
+      width: 8,
+      thickness: 2,
+    ),
+  );
 }
